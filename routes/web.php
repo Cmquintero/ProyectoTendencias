@@ -1,31 +1,38 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\EstudianteController;
-use App\Http\Controllers\DocenteController;
-use App\Http\Controllers\AsignaturaController;
-use App\Http\Controllers\HorarioController;
+use App\Http\Controllers\{
+    EstudianteController,
+    DocenteController,
+    AsignaturaController,
+    HorarioController,
+    LoginController
+};
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Aquí definimos todas las rutas de la aplicación.
-|
-*/
-
-// Ruta de bienvenida
+// Página de bienvenida
 Route::get('/', function () {
-    return view('welcome'); // Aquí se carga la pantalla bonita de bienvenida
+    return view('welcome');
+})->name('welcome');
+
+// Autenticación
+Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [LoginController::class, 'login'])->name('login.post');
+Route::get('/register', [LoginController::class, 'showRegister'])->name('register');
+Route::post('/register', [LoginController::class, 'register'])->name('register.post');
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+Route::get('/forgot', [LoginController::class, 'showForgot'])->name('forgot');
+Route::post('/forgot', [LoginController::class, 'sendResetLink'])->name('forgot.post');
+
+// 🔒 Rutas protegidas (solo usuarios logueados pueden acceder)
+Route::middleware('auth')->group(function () {
+ Route::get('/dashboard', [LoginController::class, 'dashboard'])->name('dashboard');
+
+
+    Route::resource('estudiantes', EstudianteController::class);
+    Route::resource('docentes', DocenteController::class);
+    Route::resource('asignaturas', AsignaturaController::class);
+    Route::resource('horarios', HorarioController::class);
+
+    Route::get('horarios/estudiante/{id}', [HorarioController::class, 'porEstudiante'])->name('horarios.porEstudiante');
+    Route::get('horarios/docente/{id}', [HorarioController::class, 'porDocente'])->name('horarios.porDocente');
 });
-
-// Rutas RESTful para cada entidad
-Route::resource('estudiantes', EstudianteController::class);
-Route::resource('docentes', DocenteController::class);
-Route::resource('asignaturas', AsignaturaController::class);
-Route::resource('horarios', HorarioController::class);
-
-// Rutas especiales para consultar horarios por estudiante o docente
-Route::get('horarios/estudiante/{id}', [HorarioController::class, 'porEstudiante'])->name('horarios.porEstudiante');
-Route::get('horarios/docente/{id}', [HorarioController::class, 'porDocente'])->name('horarios.porDocente');
