@@ -17,8 +17,8 @@ return new class extends Migration
             $table->string('email', 150)->unique();
             $table->string('password');
 
-            //  (por defecto "usuario")
-            $table->string('role', 20)->default('usuario');
+            $table->string('role', 20)->default('estudiante');
+
 
 
             $table->rememberToken();

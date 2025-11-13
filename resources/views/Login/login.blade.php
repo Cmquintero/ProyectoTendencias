@@ -6,9 +6,7 @@
     <title>Iniciar Sesión - Sistema de Horarios</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        * {
-            box-sizing: border-box;
-        }
+        * { box-sizing: border-box; }
 
         html, body {
             height: 100%;
@@ -114,12 +112,44 @@
             text-decoration: underline;
             color: #df7e5f;
         }
+
+        /* Mensajes */
+        .alert {
+            margin-bottom: 15px;
+            padding: 10px;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+
+        .alert-success {
+            background: rgba(76, 175, 80, 0.2);
+            color: #00ff9d;
+        }
+
+        .alert-error {
+            background: rgba(255, 0, 0, 0.2);
+            color: #ffb3b3;
+        }
     </style>
 </head>
 <body>
 
     <div class="login-box">
         <h1>Iniciar Sesión</h1>
+
+        <!-- ✅ Mensajes de éxito o error -->
+        @if(session('success'))
+            <div class="alert alert-success">{{ session('success') }}</div>
+        @endif
+
+        @if(session('not_registered'))
+            <div class="alert alert-error">{{ session('not_registered') }}</div>
+        @endif
+
+        @if($errors->any())
+            <div class="alert alert-error">{{ $errors->first() }}</div>
+        @endif
+
         <form method="POST" action="{{ route('login.post') }}">
             @csrf
             <input type="email" name="email" placeholder="Correo electrónico" required><br>
@@ -130,8 +160,7 @@
         <div class="links">
             <a href="{{ route('forgot') }}">¿Has olvidado tu contraseña? 🔑</a>
             <a href="{{ route('register') }}">¿No tienes cuenta? Regístrate ✨</a>
-        <a href="{{ route('login') }}">🔙 Volver al login</a>
-
+            <a href="{{ route('welcome') }}">🏠 Volver al inicio</a>
         </div>
     </div>
 

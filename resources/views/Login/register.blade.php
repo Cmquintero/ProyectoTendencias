@@ -6,9 +6,7 @@
     <title>Registro - Sistema de Horarios</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        * {
-            box-sizing: border-box;
-        }
+        * { box-sizing: border-box; }
 
         body {
             height: 100%;
@@ -29,8 +27,9 @@
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
         }
+
         .register-box {
-            margin-top:120px;
+            margin-top: 120px;
             background: rgba(255, 255, 255, 0.08);
             border-radius: 15px;
             padding: 50px 60px;
@@ -39,7 +38,6 @@
             animation: fadeIn 1.5s ease;
         }
 
-    
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(-20px); }
             to { opacity: 1; transform: translateY(0); }
@@ -58,7 +56,7 @@
             to { text-shadow: 0 0 25px #ff7e5f, 0 0 40px #ff7e5f; }
         }
 
-        input {
+        input, select {
             width: 80%;
             padding: 12px;
             margin: 10px 0;
@@ -71,6 +69,10 @@
             transition: background 0.3s ease;
         }
 
+        select option {
+            background: #ff7e5f;
+            color: white;
+        }
 
         button {
             margin-top: 15px;
@@ -107,7 +109,6 @@
             text-decoration: underline;
             color: #Df7e5f;
         }
-        
     </style>
 </head>
 <body>
@@ -120,6 +121,15 @@
             <input type="email" name="email" placeholder="Correo electrónico" required><br>
             <input type="password" name="password" placeholder="Contraseña" required><br>
             <input type="password" name="password_confirmation" placeholder="Confirmar contraseña" required><br>
+
+            <!-- 🔹 Selector de rol -->
+            <select name="role" required>
+                <option value="" disabled selected>Selecciona tu rol</option>
+                <option value="plan_estudios">Plan de Estudios 📘</option>
+                <option value="docente">Docente 👨‍🏫</option>
+                <option value="estudiante">Estudiante 🎓</option>
+            </select><br>
+
             <button type="submit">Registrarse ✨</button>
         </form>
 

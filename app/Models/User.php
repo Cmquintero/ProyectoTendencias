@@ -10,10 +10,10 @@ class User extends Authenticatable
 {
     use Notifiable;
 
-public function sendPasswordResetNotification($token)
-{
-    $this->notify(new ResetPasswordNotification($token));
-}
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new ResetPasswordNotification($token));
+    }
 
     protected $fillable = [
         'name', 'email', 'password', 'role',
@@ -22,4 +22,10 @@ public function sendPasswordResetNotification($token)
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+
+    public function hasRole($role)
+    {
+        return $this->role === $role;
+    }
 }
