@@ -3,24 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Iniciar sesión - Sistema de Horarios</title>
+    <title>Iniciar Sesión - Sistema de Horarios</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
         * {
             box-sizing: border-box;
         }
 
-        body, html {
+        html, body {
             height: 100%;
             margin: 0;
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(-45deg, #0f0c29, #302b63, #24243e, #8a2be2);
-            background-size: 300% 300%;
-            animation: gradientShift 10s ease infinite;
-            color: #ffffff;
+            padding: 0;
             display: flex;
             justify-content: center;
             align-items: center;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(-45deg, #fcb045, #ff7e5f, #FFC0CB, #fcb045);
+            background-size: 300% 300%;
+            animation: gradientShift 10s ease infinite;
+            color: #ffffff;
             text-align: center;
         }
 
@@ -34,9 +35,11 @@
             background: rgba(255, 255, 255, 0.08);
             border-radius: 15px;
             padding: 50px 60px;
-            box-shadow: 0 0 30px rgba(255, 0, 255, 0.3);
+            box-shadow: 0 0 30px rgba(100,20,10,0.5);
             backdrop-filter: blur(10px);
             animation: fadeIn 1.5s ease;
+            width: 100%;
+            max-width: 420px;
         }
 
         @keyframes fadeIn {
@@ -45,16 +48,16 @@
         }
 
         h1 {
-            color: #ff00ff;
+            color: #fff;
             font-size: 2.5rem;
             margin-bottom: 25px;
-            text-shadow: 0 0 15px #ff00ff;
+            text-shadow: 0 0 15px #fcb045;
             animation: glow 2s ease-in-out infinite alternate;
         }
 
         @keyframes glow {
-            from { text-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff; }
-            to { text-shadow: 0 0 25px #ff33ff, 0 0 40px #ff33ff; }
+            from { text-shadow: 0 0 10px #FAC1CB, 0 0 20px #FFC0CA; }
+            to { text-shadow: 0 0 25px #ff7e5f, 0 0 40px #ff7e5f; }
         }
 
         input {
@@ -63,53 +66,53 @@
             margin: 10px 0;
             border: none;
             border-radius: 10px;
-            background: rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.4);
             color: #fff;
             font-size: 1rem;
             text-align: center;
             transition: background 0.3s ease;
         }
 
-        input:focus {
-            outline: none;
-            background: rgba(255, 255, 255, 0.25);
+        input::placeholder {
+            color: #f9f9f9;
         }
 
         button {
             margin-top: 15px;
             padding: 12px 40px;
-            background: #ff00ff;
-            color: #0f0c29;
+            background: #df7e5f;
             border: none;
             border-radius: 10px;
             font-weight: bold;
             font-size: 1.1rem;
             cursor: pointer;
             transition: 0.3s ease;
-            box-shadow: 0 0 15px rgba(255, 0, 255, 0.5);
+            box-shadow: 0 0 15px rgba(255,170,100,0.6);
         }
 
         button:hover {
-            background: #ff33ff;
+            background: #FAC1CB;
             transform: scale(1.08);
-            box-shadow: 0 0 25px rgba(255, 0, 255, 0.8);
+            box-shadow: 0 0 25px rgba(255,170,100,0.6);
         }
 
         .links {
-            margin-top: 15px;
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
         }
 
         .links a {
-            color: #ff33ff;
+            color: #FAC1CB;
             text-decoration: none;
             font-weight: 600;
-            margin: 0 8px;
             transition: 0.3s ease;
         }
 
         .links a:hover {
             text-decoration: underline;
-            color: #ff66ff;
+            color: #df7e5f;
         }
     </style>
 </head>
@@ -121,12 +124,14 @@
             @csrf
             <input type="email" name="email" placeholder="Correo electrónico" required><br>
             <input type="password" name="password" placeholder="Contraseña" required><br>
-            <button type="submit">Entrar 🔓</button>
+            <button type="submit">Iniciar Sesión 🚀</button>
         </form>
 
         <div class="links">
-            <a href="{{ route('register') }}">📝 Crear cuenta</a> |
-            <a href="{{ route('forgot') }}">❓¿Olvidaste tu contraseña?</a>
+            <a href="{{ route('forgot') }}">¿Has olvidado tu contraseña? 🔑</a>
+            <a href="{{ route('register') }}">¿No tienes cuenta? Regístrate ✨</a>
+        <a href="{{ route('login') }}">🔙 Volver al login</a>
+
         </div>
     </div>
 

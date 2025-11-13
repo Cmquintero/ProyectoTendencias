@@ -10,27 +10,65 @@ use Illuminate\Support\Facades\Password;
 
 class LoginController extends Controller
 {
+    public function showResetForm($token)
+{
+    return view('Login.reset-password', ['token' => $token]);
+}
+
     public function showLoginForm()
     {
         return view('Login.login');
     }
 
-    public function login(Request $request)
-    {
-        $credentials = $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
-        ]);
+public function login(Request $request)
+{
+    $credentials = $request->validate([
+        'email' => 'required|email',
+        'password' => 'required',
+    ]);
 
-        if (Auth::attempt($credentials)) {
-            $request->session()->regenerate();
-            return redirect()->route('dashboard')->with('success', 'Bienvenido al sistema');
-        }
+    // Verificamos si el usuario existe
+    $user = \App\Models\User::where('email', $request->email)->first();
 
-        return back()->withErrors([
-            'email' => 'Las credenciales no coinciden.',
-        ]);
+    if (!$user) {
+        // ✅ Si no existe, mandamos un mensaje a la vista (sin redirección extra)
+        return back()->with('not_registered', 'Regístrate primero, mi broder 😎');
     }
+
+    // Intentamos autenticar
+    if (Auth::attempt($credentials)) {
+        $request->session()->regenerate();
+        return redirect()->route('horarios.index')->with('success', 'Bienvenido al sistema 👋');
+    }
+
+    // Si el usuario existe pero la contraseña no coincide
+    return back()->withErrors([
+        'password' => 'Contraseña incorrecta, intenta de nuevo.',
+    ]);
+}
+public function resetPassword(Request $request)
+{
+    $request->validate([
+        'token' => 'required',
+        'email' => 'required|email',
+        'password' => 'required|confirmed|min:6',
+    ]);
+
+    $status = Password::reset(
+        $request->only('email', 'password', 'password_confirmation', 'token'),
+        function ($user, $password) {
+            $user->forceFill([
+                'password' => Hash::make($password)
+            ])->save();
+        }
+    );
+
+    return $status === Password::PASSWORD_RESET
+        ? redirect()->route('login')->with('success', 'Contraseña restablecida correctamente.')
+        : back()->withErrors(['email' => __($status)]);
+}
+
+
 
     public function showRegister()
     {
@@ -76,10 +114,5 @@ class LoginController extends Controller
         return $status === Password::RESET_LINK_SENT
             ? back()->with('status', __($status))
             : back()->withErrors(['email' => __($status)]);
-    }
-
-    public function dashboard()
-    {
-        return view('Login.dashboard');
     }
 }

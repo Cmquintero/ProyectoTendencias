@@ -23,11 +23,8 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 Route::get('/forgot', [LoginController::class, 'showForgot'])->name('forgot');
 Route::post('/forgot', [LoginController::class, 'sendResetLink'])->name('forgot.post');
 
-// 🔒 Rutas protegidas (solo usuarios logueados pueden acceder)
+// 🔒 Rutas protegidas
 Route::middleware('auth')->group(function () {
- Route::get('/dashboard', [LoginController::class, 'dashboard'])->name('dashboard');
-
-
     Route::resource('estudiantes', EstudianteController::class);
     Route::resource('docentes', DocenteController::class);
     Route::resource('asignaturas', AsignaturaController::class);
@@ -36,3 +33,8 @@ Route::middleware('auth')->group(function () {
     Route::get('horarios/estudiante/{id}', [HorarioController::class, 'porEstudiante'])->name('horarios.porEstudiante');
     Route::get('horarios/docente/{id}', [HorarioController::class, 'porDocente'])->name('horarios.porDocente');
 });
+// Formulario para reset
+Route::get('/reset-password/{token}', [LoginController::class, 'showResetForm'])->name('password.reset');
+
+// Enviar el nuevo password
+Route::post('/reset-password', [LoginController::class, 'resetPassword'])->name('password.update');
